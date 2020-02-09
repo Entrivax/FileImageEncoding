@@ -1,0 +1,9 @@
+{
+    "manifest_version": 2,
+    "name": "File image encode/decode",
+    "version": "0.1.0.0",
+    "author": "Entrivax",
+    "browser_action": {
+        "default_popup": "index.html"
+    }
+  }

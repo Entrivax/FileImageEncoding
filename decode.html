@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <script src="./CryptoJS.min.js"></script>
+    <script src="./FileSaver.min.js"></script>
+    <script src="./encode_decode_crypto.js"></script>
+    <script src="./decode.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<div class="container p-3" style="min-width: 300px">
+    <a href="./index.html">&lt; Back</a>
+    <h3>Decode</h3>
+    <form>
+        <div class="form-group">
+            <label for="password-input">Password</label>
+            <input id="password-input" class="form-control" type="text" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="file-input">File to decode</label>
+            <div class="input-group">
+                <div class="custom-file">
+                    <input id="file-input" class="custom-file-input" type="file">
+                    <label class="custom-file-label" for="file-input">Choose file</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Decode</button>
+        </div>
+    </form>
+</div>
+<div id="drop-zone">
+    <div class="d-flex justify-content-center flex-column h-100">
+        <div class="text-center">Drop file here</div>
+    </div>
+</div>
