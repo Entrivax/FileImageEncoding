@@ -1,14 +1,11 @@
+let selectedFile = null
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#encode-file').addEventListener('submit', submit)
     document.body.addEventListener('drop', (ev) => {
         ev.preventDefault()
         document.getElementById('drop-zone').classList.remove('show')
         if (event.dataTransfer.files.length === 1) {
-            let passwordInput = document.getElementById('password-input')
-            let password = passwordInput ? passwordInput.value : null
-            encode(event.dataTransfer.files[0], (encodedData, filename) => {
-                saveAs(encodedData, filename)
-            }, null, password)
+            selectFile(event.dataTransfer.files[0])
         }
     })
     document.body.addEventListener('dragover', (ev) => {
@@ -20,15 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('drop-zone').classList.remove('show')
     })
     document.querySelector('#encode-text').addEventListener('submit', submitText)
+    document.querySelector('#file-input').addEventListener('change', fileChanged)
 })
 function submit (event) {
     event.preventDefault()
-    /** @type {HTMLInputElement} */
-    let fileInput = document.getElementById('file-input')
     let passwordInput = document.getElementById('password-input')
     let password = passwordInput ? passwordInput.value : null
-    if (fileInput.files.length === 1) {
-        encode(fileInput.files[0], (encodedData, fileName) => {
+    if (selectedFile) {
+        encode(selectedFile, (encodedData, fileName) => {
             saveAs(encodedData, fileName)
         }, null, password)
     }
@@ -57,3 +53,17 @@ document.addEventListener('paste', (event) => {
         }, null, password)
     }
 })
+
+/**
+ * @param {File} file 
+ */
+function selectFile(file) {
+    selectedFile = file
+    let label = document.querySelector('.custom-file label[for=file-input]')
+    label.innerText = file ? file.name : 'Choose file'
+}
+
+function fileChanged(event) {
+    let file = event.target.files[0]
+    selectFile(file)
+}

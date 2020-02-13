@@ -1,14 +1,11 @@
+let selectedFile = null
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('form').addEventListener('submit', submit)
     document.body.addEventListener('drop', (ev) => {
         ev.preventDefault()
         document.getElementById('drop-zone').classList.remove('show')
         if (event.dataTransfer.files.length === 1 && event.dataTransfer.files[0].type === 'image/png') {
-            let passwordInput = document.getElementById('password-input')
-            let password = passwordInput ? passwordInput.value : null
-            decode(event.dataTransfer.files[0], (decodedData, filename) => {
-                saveAs(decodedData, filename)
-            }, password)
+            selectFile(event.dataTransfer.files[0])
         }
     })
     document.body.addEventListener('dragover', (ev) => {
@@ -19,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ev.preventDefault()
         document.getElementById('drop-zone').classList.remove('show')
     })
+    document.querySelector('#file-input').addEventListener('change', fileChanged)
 })
 function submit(event) {
     event.preventDefault()
@@ -26,8 +24,8 @@ function submit(event) {
     let fileInput = document.getElementById('file-input')
     let passwordInput = document.getElementById('password-input')
     let password = passwordInput ? passwordInput.value : null
-    if (fileInput.files.length === 1) {
-        decode(fileInput.files[0], (decodedData, fileName) => {
+    if (selectedFile) {
+        decode(selectedFile, (decodedData, fileName) => {
             saveAs(decodedData, fileName)
         }, password)
     }
@@ -42,3 +40,17 @@ document.addEventListener('paste', (event) => {
         }, password)
     }
 })
+
+/**
+ * @param {File} file 
+ */
+function selectFile(file) {
+    selectedFile = file
+    let label = document.querySelector('.custom-file label[for=file-input]')
+    label.innerText = file ? file.name : 'Choose file'
+}
+
+function fileChanged(event) {
+    let file = event.target.files[0]
+    selectFile(file)
+}
