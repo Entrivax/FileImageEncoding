@@ -42,10 +42,8 @@ func EncodeToImage(inputFileData []uint8, inputFileName *string, password *strin
 	}
 	squareSideSize := int(math.Ceil(math.Sqrt(float64(pixelsCount))))
 
-	fmt.Printf("pxcount: %d \n", pixelsCount)
 	outImage := image.NewNRGBA(image.Rect(0, 0, squareSideSize, squareSideSize))
 
-	// fmt.Printf("%d\n", toEncodeArrayLength)
 	outImage.Pix[0] = uint8(toEncodeArrayLength >> 24 & 0xFF)
 	outImage.Pix[1] = uint8(toEncodeArrayLength >> 16 & 0xFF)
 	outImage.Pix[2] = uint8(toEncodeArrayLength >> 8 & 0xFF)
@@ -56,7 +54,6 @@ func EncodeToImage(inputFileData []uint8, inputFileName *string, password *strin
 		// offset of 5 bytes for the length of the file name
 		currentPixel := (i + 5) / 3       // current pixel index
 		currentPixelOffset := (i + 5) % 3 // color of the pixel to edit
-		// fmt.Printf("i: %d, currentPixel: %d, currentPixelOffset\n", i, currentPixel, currentPixelOffset)
 		outImage.Pix[currentPixel*4+currentPixelOffset] = toEncodeArray[i]
 
 		// If a new pixel is used, set the alpha channel to 255
